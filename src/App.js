@@ -47,7 +47,6 @@ const App = () => {
           fontSize="large"
           className="location"
         />
-        <LocationOnIcon />
       </div>
       {weather.main && (
         <div className="city">
