@@ -63,3 +63,8 @@ input.search-bar {
   align-items: center;
   text-transform: uppercase;
 }
+
+.location:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}

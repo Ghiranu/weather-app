@@ -16,6 +16,21 @@ const App = () => {
     }
   };
 
+  const apiKey = process.env.REACT_APP_API_KEY;
+
+  const getWeather = (position) => {
+    const lat = position.coords.latitude;
+    const long = position.coords.longitude;
+    const URL = `https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${long}&units=metric&&cnd=1&appid=${apiKey}`;
+    fetch(URL)
+      .then((res) => res.json())
+      .then((result) => setWeather(result.list[0]));
+  };
+
+  const locate = () => {
+    navigator.geolocation.getCurrentPosition(getWeather);
+  };
+
   return (
     <div className="container">
       <div className="search">
@@ -27,7 +42,11 @@ const App = () => {
           onKeyPress={search}
           className="search-bar"
         />
-        <LocationOnIcon fontSize="large" />
+        <LocationOnIcon
+          onClick={locate}
+          fontSize="large"
+          className="location"
+        />
       </div>
       {weather.main && (
         <div className="city">
