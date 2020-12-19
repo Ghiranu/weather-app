@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { fetchWeather } from "./api/FetchWeather";
 import "./App.css";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { fetchWeatherCoord } from "./api/FetchWeatherCoord";
 
 const App = () => {
   const [city, setCity] = useState("");
@@ -16,19 +17,13 @@ const App = () => {
     }
   };
 
-  const apiKey = process.env.REACT_APP_API_KEY;
-
-  const getWeather = (position) => {
-    const lat = position.coords.latitude;
-    const long = position.coords.longitude;
-    const URL = `https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${long}&units=metric&&cnd=1&appid=${apiKey}`;
-    fetch(URL)
-      .then((res) => res.json())
-      .then((result) => setWeather(result.list[0]));
+  const getWeatherByCoords = async (position) => {
+    const data = await fetchWeatherCoord(position);
+    setWeather(data.list[0]);
   };
 
   const locate = () => {
-    navigator.geolocation.getCurrentPosition(getWeather);
+    navigator.geolocation.getCurrentPosition(getWeatherByCoords);
   };
 
   return (
